@@ -1,49 +1,38 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'itchyny/lightline.vim'
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'ycm-core/YouCompleteMe'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'junegunn/limelight.vim'                      
-Plugin 'junegunn/goyo.vim'                           
-Plugin 'tpope/vim-surround'                           
-Plugin 'scrooloose/nerdtree'                         " Nerdtree
-Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'     " Highlighting Nerdtree
-
-call vundle#end()            " required
-filetype plugin indent on    " required
-set encoding=UTF-8
-set path+=**					" Searches current directory recursively.
-set wildmenu					" Display all matches when tab complete.
-set incsearch                   " Incremental search
-set hidden                      " Needed to keep multiple buffers open
-set nobackup                    " No auto backups
-set noswapfile                  " No swap
-set t_Co=256                    " Set if term supports 256 colors.
-set number relativenumber       " Display line numbers
-set clipboard=unnamedplus       " Copy/paste between vim and other programs.
-syntax enable
-let g:rehash256 = 1
-:imap ii <Esc>			" remap ESC to double ii  
-set laststatus=2
-
-set mouse=nicr
-set mouse=a
-let g:lightline = {
-      \ 'colorscheme': 'darcula',
-      \ }
-" autocmd vimenter * NERDTree
+set splitbelow
+call plug#begin('~/.vim/plugged')
+Plug 'vim-airline/vim-airline'
+Plug 'lervag/vimtex'
+Plug 'ycm-core/YouCompleteMe'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'jiangmiao/auto-pairs'
+Plug 'scrooloose/nerdtree'
+call plug#end()
+filetype plugin indent on
+syntax on 
+let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+set tabstop=8
+set softtabstop=8
+set shiftwidth=8
+let g:tex_flavor = 'latex'
+"set noexpandtab
+set backspace=indent,eol,start
+set wildmode=longest,list,full
+set number relativenumber
+set wildmenu
+imap ii <Esc>
+function FormatBuffer()
+  if &modified && !empty(findfile('.clang-format', expand('%:p:h') . ';'))
+    let cursor_pos = getpos('.')
+    :%!clang-format
+    call setpos('.', cursor_pos)
+  endif
+endfunction
+autocmd BufWritePre *.h,*.hpp,*.c,*.cpp,*.vert,*.frag :call FormatBuffer()
+let g:airline_theme='behelit'
 map <C-n> :NERDTreeToggle<CR>
 let g:NERDTreeDirArrowExpandable = '►'
 let g:NERDTreeDirArrowCollapsible = '▼'
 let NERDTreeShowLineNumbers=1
 let NERDTreeShowHidden=1
 let NERDTreeMinimalUI = 1
-let g:NERDTreeWinSize=38
-
+let g:NERDTreeWinSize=28
