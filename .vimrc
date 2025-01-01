@@ -1,6 +1,6 @@
 set relativenumber
 set number
-set list 
+set list
 
 let mapleader = " "
 nnoremap <leader>f :Ag<Space>
@@ -17,6 +17,19 @@ nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>s :split<CR>
 
+" Autoformat on save
+au BufWrite *.py :Autoformat
+au BufWrite *.cu,*.cuh :Autoformat
+
+" Define formatters
+let g:formatters_python = ['black']
+let g:formatters_cuda = ['clangformat']
+
+" Enable formatters
+let g:autoformat_autoindent = 0
+let g:autoformat_retab = 0
+let g:autoformat_remove_trailing_spaces = 0
+
 " Make splits open in more natural positions
 set splitbelow
 set splitright
@@ -32,6 +45,7 @@ call plug#begin()
 
 
 " List your plugins here
+Plug 'vim-autoformat/vim-autoformat'
 Plug 'jreybert/vimagit'
 Plug 'tpope/vim-sensible'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
